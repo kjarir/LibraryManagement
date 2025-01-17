@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="stylesheet/home.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="p-4 md:p-8 text-white">
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>
+                <a href="/home">LibCloud</a>
+            </h2>        
+        </div>
+        <ul class="sidebar-links">
+            <h4><span>Main Menu</span></h4>
+            <% if (role === 'admin') { %>
+                <li><a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a></li>
+                <li><a href="/addBook"><span class="material-symbols-outlined"> auto_stories </span>Add Book</a></li>
+                <li><a href="/ebooks"><span class="material-symbols-outlined"> auto_stories </span>eBooks</a></li>
+                <li><a href="/addEbook"><span class="material-symbols-outlined"> person </span>Add Ebook</a></li>
+                <li><a href="/users"><span class="material-symbols-outlined"> person </span>User</a></li> 
+            <% } else { %>
+                <li><a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a></li>
+                <li><a href="/ebooks"><span class="material-symbols-outlined"> auto_stories </span>eBooks</a></li>
+                <li><a href="/fines"><span class="material-symbols-outlined"> payments </span>Fine</a></li>
+            <% } %>
+            <h4><span>Account</span></h4>
+            <li><a href="/profile"><span class="material-symbols-outlined"> account_circle </span>Profile</a></li>
+            <li><a href="/logout"><span class="material-symbols-outlined"> logout </span>Logout</a></li>
+        </ul>
+    </aside>
+
+    <div class="main-content">
+    </head>
+    <body class="p-4 md:p-8 text-white">
+       
+        <!-- Dashboard Grid -->
+        <div class=" max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-5">
+            <!-- Monthly Users Chart -->
+            <div class="card p-6">
+                <div class="flex justify-between items-center mb-5">
+                    <h2 class="text-gray-400 text-sm font-medium">Monthly Users</h2>
+                    <div class="flex items-center gap-2">
+                        <button class="text-gray-400">
+                            <i class="fas fa-ellipsis"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="mb-6">
+                    <h3 class="text-4xl font-semibold">999<span class="text-sm text-gray-400 ml-1">avg.</span></h3>
+                </div>
+                <div style="height: 120px;">
+                    <canvas id="expensesChart"></canvas>
+                </div>
+            </div>
+            <!-- Fines charts-->
+                <div class="card p-6 col-span-1">
+                  <div class="flex justify-between items-center">
+                      <h2 class="text-sm font-medium">Monthly Fines</h2>
+                      <div class="flex items-center gap-2">
+                          <span class="text-gray-400 text-xs">Per Day</span>
+                          <button class="text-gray-400">•••</button>
+                      </div>
+                  </div>
+                  <div class="text-4xl font-semibold mb-6">$500 <span class="text-sm text-gray-400 ml-1">avg.</span></div>
+                  <div style="height: 200px;">
+                      <canvas id="dailyExpensesChart"></canvas>
+                  </div>
+              </div>
+            </div>
+    
+            <!-- Bottom Stats -->
+            <div class="card p-6 col-span-1 mb-2">
+                <h2 class="text-gray-400 text-sm mb-2">Total Books</h2>
+                <div class="text-3xl font-semibold">2,000</div>
+                <div class="text-green-500 text-sm">↗ 3.3%</div>
+            </div>
+    
+            <div class="card p-6 col-span-1 mb-2">
+                <h2 class="text-gray-400 text-sm mb-2">Total issued books</h2>
+                <div class="text-3xl font-semibold">1200</div>
+                <div class="text-yellow-500 text-sm">→ 0.0%</div>
+            </div>
+    
+            <div class="card p-6 col-span-1 mb-2">
+                <h2 class="text-gray-400 text-sm mb-2">Total books in Library</h2>
+                <div class="text-3xl font-semibold">800</div>
+                <div class="text-green-500 text-sm">↗ 3.3%</div>
+            </div>
+        </div>
+    
+        <script>
+          // Initialize all charts globally so we can access them later
+    let expensesChart, caloriesChart, dailyExpensesChart, visitorsChart, pageViewsChart;
+    
+    // Function to initialize all charts
+    function initializeCharts() {
+        const darkMode = {
+            backgroundColor: '#ffffff',
+            gridColor: '#007960',
+            textColor: '#9ca3af'
+        };
+    
+        // Monthly Expenses Chart
+        expensesChart = new Chart(document.getElementById('expensesChart'), {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'August', 'September', 'October', 'November', 'December'],
+                datasets: [{
+                    label: 'Users',
+                    data: [150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700],
+                    borderColor: '#3b82f6',
+                    tension: 10,
+                    borderWidth: 2,
+                    fill: false
+                }, {
+                    label: 'Users',
+                    data: [150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700],
+                    borderColor: '#a855f7',
+                    tension: 0.4,
+                    borderWidth: 2,
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: darkMode.textColor,
+                            usePointStyle: true,
+                            padding: 20
+                        }
+                    }
+                },
+                scales: {
+                    y: { display: false },
+                    x: { display: false }
+                }
+            }
+        });
+    
+        // Fines Chart
+        visitorsChart = new Chart(document.getElementById('visitorsChart'), {
+            type: 'line',
+            data: {
+                labels: Array(10).fill(''),
+                datasets: [{
+                    data: [200, 220, 250, 280, 300, 320, 340, 360, 350, 364],
+                    borderColor: '#fff',
+                    tension: 0.4,
+                    borderWidth: 2,
+                    fill: {
+                        target: 'origin',
+                        above: 'rgba(255, 255, 255, 0.1)'
+                    }
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { display: false },
+                    x: { display: false }
+                }
+            }
+        });
+    
+        // Page Views Line Chart
+       
+    }
+    
+    
+    // Update saving progress bars
+    function updateSavingProgress(type, current, total) {
+        const percentage = (current / total) * 100;
+        const progressBar = document.querySelector(`#${type}Progress .progress-fill`);
+        const amountText = document.querySelector(`#${type}Progress .progress-amount`);
+        
+        progressBar.style.width = `${percentage}%`;
+        amountText.textContent = `$${current.toLocaleString()} of $${total.toLocaleString()}`;
+    }
+    
+    // Initialize everything when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+        initializeCharts();
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('dataModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    });
+            const darkMode = {
+                backgroundColor: '#ffffff',
+                gridColor: '#007960',
+                textColor: '#9ca3af'
+            };
+    
+            // Monthly Expenses Chart
+            new Chart(document.getElementById('expensesChart'), {
+                type: 'line',
+                data: {
+                  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'August', 'September', 'October', 'November', 'December'],
+                  datasets: [{
+                        label: 'Old Users',
+                        data: [150,200, 250, 100, 300, 100, 400, 250, 300, 200, 100, 300],
+                        borderColor: '#3b82f6',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        fill: false
+                    }, {
+                        label: 'New Users',
+                        data: [50, 60, 20, 40, 100, 0, 200, 150, 100, 50, 0, 100],
+                        borderColor: '#a855f7',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                color: darkMode.textColor,
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { display: false },
+                        x: { display: false }
+                    }
+                }
+            });
+    
+            // Calories Doughnut Chart
+            new Chart(document.getElementById('caloriesChart'), {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [1623, 377],
+                        backgroundColor: ['#3b82f6', '#27272a'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '85%',
+                    plugins: { legend: { display: false } }
+                }
+            });
+    
+            // Daily Expenses Bar Chart
+            new Chart(document.getElementById('dailyExpensesChart'), {
+                type: 'bar',
+                data: {
+                    labels: Array(12).fill(''),
+                    datasets: [{
+                        data: [5400, 5200, 4800, 5600, 5300, 4900, 4700, 5500, 5100, 4800, 5200, 4900],
+                        backgroundColor: '#fff',
+                        barThickness: 8
+                    }, {
+                        data: [5200, 5000, 4600, 5400, 5100, 4700, 4500, 5300, 4900, 4600, 5000, 4700],
+                        backgroundColor: '#27272a',
+                        barThickness: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { display: false },
+                        x: { display: false }
+                    }
+                }
+            });
+    
+            // Visitors Line Chart
+            new Chart(document.getElementById('visitorsChart'), {
+                type: 'line',
+                data: {
+                    labels: Array(10).fill(''),
+                    datasets: [{
+                        data: [40000, 42000, 45000, 48000, 50000, 52000, 54000, 56000, 55000, 56404],
+                        borderColor: '#fff',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        fill: {
+                            target: 'origin',
+                            above: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { display: false },
+                        x: { display: false }
+                    }
+                }
+            });
+    
+            // Page Views Line Chart
+            new Chart(document.getElementById('pageViewsChart'), {
+                type: 'line',
+                data: {
+                    labels: Array(10).fill(''),
+                    datasets: [{
+                        data: [280000, 285000, 290000, 295000, 298000, 300000, 303000, 305000, 307000, 308874],
+                        borderColor: '#a855f7',
+                        tension: 0.4,
+                        borderWidth: 2,
+                        fill: {
+                            target: 'origin',
+                            above: 'rgba(168, 85, 247, 0.1)'
+                        }
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { display: false },
+                        x: { display: false }
+                    }
+                }
+            });
+        </script>
+    </body>
+    </html>
+            </div>
+          
+            
+        </main>
+    </body>
+    </html>

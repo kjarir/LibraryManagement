@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Book</title>
+    <link rel="stylesheet" href="/stylesheet/addBook.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Add your CSS styles here */
+    </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="sidebar-header">
+        <h2>
+            <a href="/home">LibCloud</a>
+          </h2>        
+        </div>
+    <ul class="sidebar-links">
+        <h4><span>Main Menu</span></h4>
+        <% if (role === 'admin') { %>
+        <li><a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a></li>
+        <li><a href="/addBook"> <span class="material-symbols-outlined"> auto_stories </span>Add Book</a></li>
+        <li><a href="/ebooks"> <span class="material-symbols-outlined"> auto_stories </span>eBooks</a> </li>
+        <li><a href="/addEbook"><span class="material-symbols-outlined"> person </span>Add Ebook</a></li>
+        <li><a href="/users"><span class="material-symbols-outlined"> person </span>User</a></li> 
+        <!-- <li><a href="/fines"><span class="material-symbols-outlined"> payments </span>Fine</a></li> -->
+        <% } else { %>
+            <li> <a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a> </li>
+            <li><a href="/ebooks"><span class="material-symbols-outlined"> auto_stories </span>eBooks</a> </li>
+            <li><a href="/fines"><span class="material-symbols-outlined"> payments </span>Fine</a </li>
+        <% } %>
+        <h4><span>Account</span></h4>
+        <li><a href="/profile"><span class="material-symbols-outlined"> account_circle </span>Profile</a></li>
+        <li><a href="/logout"><span class="material-symbols-outlined"> logout </span>Logout</a></li>
+    </ul>
+   
+</aside>
+
+      <div class="main-content">
+
+        <div class="form">
+            <form action="/addBook" method="POST" enctype="multipart/form-data">
+                <label for="bookName">Book Name:</label>
+                <input type="text" id="bookName" name="bookName" required><br>
+                
+                <label for="author">Author:</label>
+                <input type="text" id="author" name="author" required><br>
+                
+                <label for="genre">Genre:</label>
+                <input type="text" id="genre" name="genre" required><br>
+                
+                <label for="isbn">ISBN:</label>
+                <input type="text" id="isbn" name="isbn" required><br>
+                
+                <label for="copies">Copies:</label>
+                <input type="number" id="copies" name="copies" required><br>
+                
+                <label for="coverImage">Cover Image:</label>
+                <input type="file" id="coverImage" name="coverImage" accept="image/*" required><br>
+                
+                <input type="submit" value="Upload">
+            </form>
+          </div>
+        </div>
+        
+    
+    
+</body>
+</html>

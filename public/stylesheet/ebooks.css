@@ -1,0 +1,282 @@
+/* General */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  background: #F0F4FF;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 260px; /* Set to the expanded width */
+  display: flex;
+  flex-direction: column;
+  background: #007960;
+  padding: 25px 20px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  animation: slideIn 0.5s ease-out; /* Slide-in effect */
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebar .sidebar-header {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .sidebar-header h2 {
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 600;
+  white-space: nowrap;
+  margin-left: 23px;
+}
+
+.sidebar-links {
+  list-style: none;
+  margin-top: 20px;
+  height: auto;
+  flex: 1;
+}
+
+.sidebar-links h4 {
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  margin: 10px 0;
+  position: relative;
+}
+
+.sidebar-links li a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 15px 10px;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.sidebar-links li a:hover {
+  color: #007960;
+  background: #fff;
+  transform: translateX(5px); /* Slide effect */
+}
+
+.user-account {
+  margin-top: auto;
+  padding: 12px 10px;
+  background: #fff;
+  border-radius: 4px;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile img {
+  width: 42px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.user-detail h3 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.sidebar .sidebar-header h2 a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: calc(260px + 20px);
+  margin-right: calc(20px);
+  padding: 20px;
+  width: calc(100% - 280px);
+  background: #F0F4FF;
+  overflow-x: hidden;
+  animation: fadeIn 1s ease-in; /* Fade-in effect */
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+th, td {
+  padding: 15px;
+  text-align: center;
+}
+
+th {
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+  transform: translateY(-5px); /* Card-like effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+td img {
+  width: 10px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #4f52ba;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pagination button:hover {
+  background-color: #3638a0;
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pagination button.active {
+  background-color: #007960;
+  color: white;
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Links */
+a {
+  color: #007960;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #4f52ba;
+}
+
+/* Search Input and Button */
+.input-container {
+  display: flex;
+}
+
+::placeholder {
+  color: #757575;
+  opacity: 1;
+}
+
+.search-input {
+  background: #EEEEEE;
+  color: #212121;
+  vertical-align: middle;
+  font-size: 16px;
+  line-height: 2;
+  padding: 10px 20px;
+  border: 0;
+  outline: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2%;
+  border-radius: 10px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6); /* Focus effect */
+  transform: scale(1.02); /* Slightly enlarge */
+}
+
+.search-submit i {
+  font-size: 24px;
+  background: #161a16;
+  color: #FFFFFF;
+  vertical-align: middle;
+  padding: 15px;
+  border: 0;
+  outline: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.search-submit:hover {
+  background: #4f52ba;
+}
+
+/* Read Button */
+.readbtn {
+  background: #007960;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease-out;
+}
+
+
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}

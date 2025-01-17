@@ -1,0 +1,211 @@
+/* Importing Google font - Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: #F0F4FF;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 260px; /* Set to the expanded width */
+    display: flex;
+    overflow-x: auto;
+    flex-direction: column;
+    background: #007960;
+    padding: 25px 20px;
+    transition: none; /* Remove the transition effect */
+  }
+  
+  .sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar .sidebar-header h2 {
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 23px;
+  }
+  .sidebar .sidebar-header h2 a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .sidebar-links h4 {
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    margin: 10px 0;
+    position: relative;
+  }
+  
+  .sidebar-links h4 span {
+    opacity: 1; /* Ensure the text is always visible */
+  }
+  
+  .sidebar-links .menu-separator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #4f52ba;
+    transform: none;
+  }
+  
+  .sidebar-links {
+    list-style: none;
+    margin-top: 20px;
+    height: 80%;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  
+  .sidebar-links li a {
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 15px 10px;
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+  
+  .sidebar-links li a:hover {
+    color: #007960;
+    background: #fff;
+    border-radius: 4px;
+  }
+  
+  .user-account {
+    margin-top: auto;
+    padding: 12px 10px;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    color: #007960;
+  }
+  
+  .user-profile img {
+    width: 42px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  
+  .user-profile h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .user-profile span {
+    font-size: 0.775rem;
+    font-weight: 600;
+  }
+  
+  .user-detail {
+    margin-left: 23px;
+    white-space: nowrap;
+  }
+  
+  .sidebar .user-account {
+    background: #fff;
+    border-radius: 4px;
+  }
+  .main-content {
+    margin-left: 260px; /* Align with sidebar width */
+    padding: 20px;
+    width: calc(100% - 260px); /* Ensure the width accounts for the sidebar */
+    background: #F0F4FF;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    position: relative; /* Ensure proper positioning */
+}
+.chart-container { 
+  position: relative; 
+}
+.card {
+  color: #000;
+  background-color: #FFFFFF;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+.progress-bar {
+  height: 0.3rem;
+  border-radius: 1rem;
+  background-color: #27272a;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 1rem;
+}
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+.modal-content {
+  background-color: #18181b;
+  border-radius: 1rem;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  position: relative;
+}
+@media (max-width: 1024px) {
+  .grid-cols-3 {
+      grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 768px) {
+  .grid-cols-3 {
+      grid-template-columns: 1fr;
+  }
+  .col-span-2 {
+      grid-column: span 1;
+  }
+}
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
+}
+.btn-primary:hover {
+  background-color: #2563eb;
+}
+.form-input {
+  width: 100%;
+  background-color: #007960;
+  border: 1px solid #374151;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+.form-label {
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+  

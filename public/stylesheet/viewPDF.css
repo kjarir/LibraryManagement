@@ -1,0 +1,123 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Main Container */
+  #container {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+  
+  /* PDF Viewer Section */
+  #viewer {
+    flex: 2;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow-y: auto;
+    border-right: 1px solid #ccc;
+    background-color: #f5f5f5;
+    align-items: center;
+    box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.5); /* Much darker and more defined shadow */
+  }
+     
+  #pdfContent {
+    height: 100%;
+    background: transparent;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+  
+  /* Chatbox Section */
+  #chatBox {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #ccc;
+    background-color: #f9f9f9;
+    padding: 15px;
+  }
+  
+  #chatBox h2 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  
+  #messages {
+    flex: 1;
+    overflow-y: auto;
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .message {
+    margin-bottom: 8px;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 70%;
+  }
+  
+  /* User Message (Right Side) */
+  .user-message {
+    align-self: flex-end;  /* Align the message to the right */
+    background-color: #0078D7;
+    color: white;
+    text-align: right;
+  }
+  
+  /* AI Message (Left Side) */
+  .ai-message {
+    align-self: flex-start;
+    background-color: #f1f1f1;
+    color: #333;
+    border: 1px solid #ddd;
+  }
+  
+  /* Typing Animation */
+  .typing {
+    font-style: italic;
+    color: #888;
+  }
+  
+  /* Input and Button */
+  .input-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  #chatInput {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 8px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  

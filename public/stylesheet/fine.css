@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: #F0F4FF;
+}
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 260px; /* Set to the expanded width */
+    display: flex;
+    overflow-x: auto;
+    flex-direction: column;
+    background: #007960;
+    padding: 25px 20px;
+    transition: none; /* Remove the transition effect */
+  }
+  
+  .sidebar .sidebar-header {
+    display: flex;
+    align-items: center;
+  }
+  
+  .sidebar .sidebar-header h2 {
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 23px;
+  }
+  .sidebar .sidebar-header h2 a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .sidebar-links h4 {
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    margin: 10px 0;
+    position: relative;
+  }
+  
+  .sidebar-links h4 span {
+    opacity: 1; /* Ensure the text is always visible */
+  }
+  
+  .sidebar-links .menu-separator {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 1px;
+    background: #4f52ba;
+    transform: none;
+  }
+  
+  .sidebar-links {
+    list-style: none;
+    margin-top: 20px;
+    height: 80%;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  
+  .sidebar-links li a {
+    display: flex;
+    align-items: center;
+    gap: 0 20px;
+    color: #fff;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 15px 10px;
+    text-decoration: none;
+    transition: 0.2s ease;
+  }
+  
+  .sidebar-links li a:hover {
+    color: #007960;
+    background: #fff;
+    border-radius: 4px;
+  }
+  
+  .user-account {
+    margin-top: auto;
+    padding: 12px 10px;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    color: #007960;
+  }
+  
+  .user-profile img {
+    width: 42px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+  }
+  
+  .user-profile h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .user-profile span {
+    font-size: 0.775rem;
+    font-weight: 600;
+  }
+  
+  .user-detail {
+    margin-left: 23px;
+    white-space: nowrap;
+  }
+  
+  .sidebar .user-account {
+    background: #fff;
+    border-radius: 4px;
+  }
+  .main-content {
+    margin-left: 260px; /* Align with sidebar width */
+    padding: 20px;
+    width: calc(100% - 260px); /* Ensure the width accounts for the sidebar */
+    background: #F0F4FF;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+    position: relative; /* Ensure proper positioning */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+th, td {
+  padding: 15px;
+  text-align: center;
+}
+
+th {
+  background-color: #f1f1f1;
+  color: #000;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+  transform: translateY(-5px); /* Card-like effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+td img {
+  width: 10px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+#fineBTN {
+  background: #007960;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}

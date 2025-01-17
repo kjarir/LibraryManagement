@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="stylesheet/ebooks.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4f52ba;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .pagination button:hover {
+            background-color: #3638a0;
+        }
+
+        .pagination button.active {
+            background-color: #007960;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>
+                <a href="/home">LibCloud</a>
+              </h2>        
+            </div>
+        <ul class="sidebar-links">
+            <h4><span>Main Menu</span></h4>
+            <% if (role === 'admin') { %>
+            <li><a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a></li>
+            <li><a href="/addBook"> <span class="material-symbols-outlined"> auto_stories </span>Add Book</a></li>
+            <li><a href="/ebooks"> <span class="material-symbols-outlined"> auto_stories </span>eBooks</a> </li>
+            <li><a href="/addEbook"><span class="material-symbols-outlined"> person </span>Add Ebook</a></li>
+            <li><a href="/users"><span class="material-symbols-outlined"> person </span>User</a></li> 
+            <!-- <li><a href="/fines"><span class="material-symbols-outlined"> payments </span>Fine</a></li> -->
+            <% } else { %>
+                <li> <a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a> </li>
+                <li><a href="/ebooks"><span class="material-symbols-outlined"> auto_stories </span>eBooks</a> </li>
+                <li><a href="/fines"><span class="material-symbols-outlined"> payments </span>Fine</a </li>
+            <% } %>
+            <h4><span>Account</span></h4>
+            <li><a href="/profile"><span class="material-symbols-outlined"> account_circle </span>Profile</a></li>
+            <li><a href="/logout"><span class="material-symbols-outlined"> logout </span>Logout</a></li>
+        </ul>
+       
+    </aside>
+
+    <main class="main-content">
+        <div class="header">
+            <form role="search" method="get" action="">
+                <div class="input-container">
+                    <input type="search" class="search-input" value="" name="s" placeholder="Search books by Book name, Author, Genre, ISBN" />
+                </div><!-- input-container -->
+            </form><!-- searchform -->
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Book Cover</th>
+                    <th>Name</th>
+                    <th>Genre</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ebook-list">
+                <% ebooks.forEach(ebook => { %>
+                <tr>
+                    <td>
+                        <% if (ebook.coverImage && ebook.coverImage.data) { %>
+                            <img src="data:<%= ebook.coverImage.contentType %>;base64,<%= ebook.coverImage.data.toString('base64') %>" 
+                                 alt="<%= ebook.bookName %> cover" 
+                                 style="width: 50px; height: auto;">
+                        <% } else { %>
+                            No Cover
+                        <% } %>
+                    </td>
+                    <td><%= ebook.bookName %></td>
+                    <td><%= ebook.genre %></td>
+                    <td><%= ebook.bookAuthor %></td>
+                    <td><%= ebook.ISBN %></td>
+                    <td>
+                        
+                        <button class="readbtn" onclick="readEbook('<%= ebook.id %>'); uploadPdfToChatPDF('<%= ebook.id %>'); chatWithPDF()">Read</button>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+
+        </table>
+        <!-- Pagination Controls -->
+        <div class="pagination" id="pagination"></div>
+    </main>
+
+    <script>
+const rowsPerPage = 6;
+let currentPage = 1;
+
+function renderBooks() {
+    const bookList = document.getElementById('ebook-list');
+    const rows = Array.from(bookList.children);
+
+    rows.forEach((row, index) => {
+        row.style.display = 'none';
+        if (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) {
+            row.style.display = '';
+        }
+    });
+
+    renderPagination(rows.length);
+}
+
+function renderPagination(totalRows) {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+    const prevButton = `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>`;
+    pagination.innerHTML += prevButton;
+
+    for (let i = 1; i <= totalPages; i++) {
+        const button = `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+        pagination.innerHTML += button;
+    }
+
+    const nextButton = `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+    pagination.innerHTML += nextButton;
+}
+
+function changePage(page) {
+    const bookList = document.getElementById('ebook-list');
+    const totalRows = bookList.children.length;
+
+    const totalPages = Math.ceil(totalRows / rowsPerPage);
+    if (page >= 1 && page <= totalPages) {
+        currentPage = page;
+        renderBooks();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    renderBooks();
+});
+
+function readEbook(ebookId) {
+        console.log("Ebook ID:", ebookId);
+        // Optional: Manually open the PDF in a new tab
+        window.open(`/viewPDF/${ebookId}`, '_blank');
+    }
+
+    async function uploadPdfToChatPDF(ebookId) {
+    console.log("Uploading PDF to ChatPDF...");
+    try {
+        const response = await fetch(`/uploadPdfToChatPDF/${ebookId}`, {
+            method: 'POST',
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to upload PDF');
+        }
+
+        const data = await response.json();
+        console.log('Upload successful:', data.sourceId);
+        sessionStorage.setItem('sourceId', data.sourceId);
+
+    } catch (error) {
+        console.error('Error uploading PDF:', error);
+        alert('Failed to upload PDF to ChatPDF. Please try again.');
+    }
+}
+
+    </script>
+</body>
+
+</html>

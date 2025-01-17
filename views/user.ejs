@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="stylesheet/user.css">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+</head>
+<body>
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>
+                <a href="/home">LibCloud</a>
+              </h2>        
+            </div>
+        <ul class="sidebar-links">
+            <h4><span>Main Menu</span></h4>
+            <% if (role === 'admin') { %>
+            <li><a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a></li>
+            <li><a href="/addBook"> <span class="material-symbols-outlined"> auto_stories </span>Add Book</a></li>
+            <li><a href="/ebooks"> <span class="material-symbols-outlined"> auto_stories </span>eBooks</a> </li>
+            <li><a href="/addEbook"><span class="material-symbols-outlined"> person </span>Add Ebook</a></li>
+            <li><a href="/users"><span class="material-symbols-outlined"> person </span>User</a></li> 
+            <!-- <li><a href="/fines"><span class="material-symbols-outlined"> payments </span>Fine</a></li> -->
+            <% } else { %>
+                <li> <a href="/books"><span class="material-symbols-outlined"> library_books </span>Books</a> </li>
+                <li><a href="/ebooks"><span class="material-symbols-outlined"> auto_stories </span>eBooks</a> </li>
+                <li><a href="/fines"><span class="material-symbols-outlined"> payments </span>Fine</a </li>
+            <% } %>
+            <h4><span>Account</span></h4>
+            <li><a href="/profile"><span class="material-symbols-outlined"> account_circle </span>Profile</a></li>
+            <li><a href="/logout"><span class="material-symbols-outlined"> logout </span>Logout</a></li>
+        </ul>
+       
+    </aside>
+        
+    </main>
+</body>
+</html><!DOCTYPE html>
+<html>
+
+<head>
+    <title>Library Management System</title>
+    <link rel="stylesheet" href="stylesheet/ebooks.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        /* Pagination styles */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .pagination button {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4f52ba;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .pagination button:hover {
+            background-color: #3638a0;
+        }
+
+        .pagination button.active {
+            background-color: #007960;
+            color: white;
+        }
+
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+   
+
+    <main class="main-content">
+        <div class="header">
+            <form role="search" method="get" action="">
+                <div class="input-container">
+                    <input type="search" class="search-input" value="" name="s" placeholder="Search user by name, email or number" />
+                </div><!-- input-container -->
+            </form><!-- searchform -->
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Mobile number</th>
+                    <th>Fines (₹)</th>
+                    <th>Borrowed Books</th>
+                    <th>Penalize</th>
+                </tr>
+            </thead>
+            <tbody id="users-list">
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><%= user.email %></td>
+                        <td><%= user.number %></td>
+                        <td>₹<%= user.fineSum %></td>
+                        <td>
+                            <button class="toggle-btn" onclick="toggleBooks('<%= user._id %>')">
+                                Show Borrowed Books
+                            </button>
+                            <div id="borrowedBooks-<%= user._id %>" class="borrowed-books-container" style="display: none;">
+                                <table class="borrowed-books">
+                                    <thead>
+                                        <tr>
+                                            <th>Book Name</th>
+                                            <th>Borrow Date</th>
+                                            <th>Due Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% if (user.borrowedBooks.length > 0) { %>
+                                            <% user.borrowedBooks.forEach(book => { %>
+                                                <tr>
+                                                    <td><%= book.bookName %></td>
+                                                    <td><%= book.borrowDate %></td>
+                                                    <td><%= book.dueDate %></td>
+                                                    <td>
+                                                        <!-- Pass both userId and bookId to the returnBook function -->
+                                                        <button class="returnbtn" onclick="returnBook('<%= user._id %>', '<%= book.bookId %>')">Return</button>
+                                                    </td>
+                                                </tr>
+                                            <% }); %>
+                                        <% } else { %>
+                                            <tr>
+                                                <td colspan="4">No borrowed books</td>
+                                            </tr>
+                                        <% } %>
+                                    </tbody>
+                                    
+                                </table>
+                            </div>
+                        </td>
+                        <td>
+                            <button onclick="issueFine('<%= user._id %>')">Penalize</button>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+      
+      
+        <!-- Pagination Controls -->
+        <div class="pagination" id="pagination"></div>
+    </main>
+
+    <script>
+      const rowsPerPage = 6; // Number of rows to display per page
+      let currentPage = 1;
+  
+      // Render visible rows based on current page
+      function renderUsers() {
+          const userList = document.getElementById('users-list');
+          const rows = Array.from(userList.children);
+  
+          rows.forEach((row, index) => {
+              row.style.display = 'none'; // Hide all rows initially
+              if (index >= (currentPage - 1) * rowsPerPage && index < currentPage * rowsPerPage) {
+                  row.style.display = ''; // Show only rows for the current page
+              }
+          });
+  
+          renderPagination(rows.length);
+      }
+  
+      // Render pagination buttons
+      function renderPagination(totalRows) {
+          const pagination = document.getElementById('pagination');
+          pagination.innerHTML = '';
+  
+          const totalPages = Math.ceil(totalRows / rowsPerPage);
+  
+          // Previous button
+          const prevButton = `<button onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>Previous</button>`;
+          pagination.innerHTML += prevButton;
+  
+          // Numbered buttons
+          for (let i = 1; i <= totalPages; i++) {
+              const button = `<button onclick="changePage(${i})" class="${i === currentPage ? 'active' : ''}">${i}</button>`;
+              pagination.innerHTML += button;
+          }
+  
+          // Next button
+          const nextButton = `<button onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>Next</button>`;
+          pagination.innerHTML += nextButton;
+      }
+  
+      // Change the current page and re-render
+      function changePage(page) {
+          const userList = document.getElementById('users-list');
+          const totalRows = userList.children.length;
+  
+          const totalPages = Math.ceil(totalRows / rowsPerPage);
+          if (page >= 1 && page <= totalPages) {
+              currentPage = page;
+              renderUsers();
+          }
+      }
+  
+      // Initialize the pagination
+      document.addEventListener('DOMContentLoaded', () => {
+          renderUsers();
+      });
+
+      function issueFine(userId) {
+        const fineAmount = prompt('Enter fine amount:');
+        const fineReason = prompt('Enter fine reason:');
+
+        if (fineAmount && !isNaN(fineAmount)) {
+            fetch(`/users/issueFine/${userId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ fine: fineAmount, reason: fineReason })
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Fine issued successfully!');
+                    location.reload(); // Refresh to update fines
+                } else {
+                    alert('Failed to issue fine');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error issuing fine');
+            });
+        } else {
+            alert('Invalid fine amount. Please enter a valid number.');
+        }
+    }
+
+    function toggleBooks(userId) {
+    const borrowedBooks = document.getElementById(`borrowedBooks-${userId}`);
+    const toggleButton = document.querySelector(`button[onclick="toggleBooks('${userId}')"]`);
+
+    if (borrowedBooks.style.display === 'none') {
+        borrowedBooks.style.display = 'block';
+        toggleButton.innerText = 'Hide Borrowed Books';
+    } else {
+        borrowedBooks.style.display = 'none';
+        toggleButton.innerText = 'Show Borrowed Books';
+    }
+}
+
+function returnBook(userId, bookId) {
+    console.log('userId:', userId, 'bookId:', bookId); // Debugging
+    if (!userId || !bookId) {
+        alert('User ID or Book ID is missing.');
+        return;
+    }
+    if (confirm('Are you sure you want to return this book?')) {
+        fetch(`/users/returnBook/${userId}/${bookId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                alert('Book returned successfully!');
+                location.reload(); // Refresh to update the UI
+            } else {
+                return response.json().then(data => {
+                    throw new Error(data.message || 'Failed to return book');
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.message || 'An error occurred while returning the book.');
+        });
+    }
+}
+
+
+
+
+
+    
+
+  </script>
+  
+</body>
+
+</html>

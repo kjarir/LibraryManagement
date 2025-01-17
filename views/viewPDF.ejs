@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/stylesheet/viewPDF.css">
+  <title>PDF Viewer and Chat</title>
+</head>
+<body>
+  <div id="container">
+    <!-- PDF Viewer Section -->
+    <div id="viewer">
+      <div id="pdfContent"></div>
+    </div>
+
+    <!-- Chatbox Section -->
+    <div id="chatBox">
+      <h2>Chat with PDF</h2>
+      <div id="messages">
+        <!-- Predefined AI Message -->
+        <div class="message ai-message">
+          <p><strong>ChatPDF:</strong> How can I assist you today?</p>
+        </div>
+      </div>
+      <div class="input-container">
+        <input type="text" id="chatInput" placeholder="Ask something about the PDF..." />
+        <button onclick="chatWithPDF()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.11.338/pdf.min.js"></script>
+  <script>
+    const base64Pdf = '<%= base64Pdf %>'; // Get Base64 PDF string from EJS
+    const viewerElement = document.getElementById('pdfContent');
+    let zoomLevel = 1.5;
+
+    // Decode and render PDF
+    const cleanBase64 = base64Pdf.replace(/\s/g, '');  
+    const binaryString = atob(cleanBase64);
+
+    const arrayBuffer = new ArrayBuffer(binaryString.length);
+    const uint8Array = new Uint8Array(arrayBuffer);
+
+    for (let i = 0; i < binaryString.length; i++) {
+      uint8Array[i] = binaryString.charCodeAt(i);
+    }
+
+    pdfjsLib.getDocument(arrayBuffer).promise.then(pdf => {
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        pdf.getPage(pageNum).then(page => {
+          const canvas = document.createElement('canvas');
+          const context = canvas.getContext('2d');
+          const viewport = page.getViewport({ scale: zoomLevel });
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          viewerElement.appendChild(canvas);
+          page.render({ canvasContext: context, viewport: viewport });
+        });
+      }
+    }).catch(error => {
+      console.error('Error loading PDF:', error);
+      viewerElement.innerText = 'Error loading PDF.';
+    });
+
+    // Chat Functionality
+    async function chatWithPDF() {
+      const question = document.getElementById('chatInput').value.trim();
+      if (!question) return;
+
+      const messagesDiv = document.getElementById('messages');
+      
+      // Display User Message
+      const userMessage = document.createElement('div');
+      userMessage.classList.add('message', 'user-message');
+      userMessage.innerHTML = `<p><strong>You:</strong> ${question}</p>`;
+      messagesDiv.appendChild(userMessage);
+      document.getElementById('chatInput').value = '';
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+      // Show Typing Animation
+      const typingDiv = document.createElement('div');
+      typingDiv.classList.add('message', 'ai-message', 'typing');
+      typingDiv.innerHTML = `<p><strong>ChatPDF:</strong> Typing...</p>`;
+      messagesDiv.appendChild(typingDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+      try {
+        const response = await fetch('/chatWithPDF', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question }),
+        });
+
+        const data = await response.json();
+
+        // Remove Typing Animation
+        messagesDiv.removeChild(typingDiv);
+
+        // Display AI Response
+        const aiMessage = document.createElement('div');
+        aiMessage.classList.add('message', 'ai-message');
+        aiMessage.innerHTML = `<p><strong>ChatPDF:</strong> ${data.reply || 'Sorry, I couldn’t find an answer.'}</p>`;
+        messagesDiv.appendChild(aiMessage);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+      } catch (error) {
+        console.error('Error during chat:', error);
+        messagesDiv.removeChild(typingDiv);
+        const errorMessage = document.createElement('div');
+        errorMessage.classList.add('message', 'ai-message');
+        errorMessage.innerHTML = `<p><strong>ChatPDF:</strong> An error occurred. Please try again later.</p>`;
+        messagesDiv.appendChild(errorMessage);
+      }
+    }
+  </script>
+</body>
+</html>
