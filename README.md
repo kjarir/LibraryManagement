@@ -1,6 +1,22 @@
+
+
+![Screenshot 2025-01-16 at 5 50 39 PM](https://github.com/user-attachments/assets/296c2815-f2dc-4c8e-8909-d5d7e889e61b)
 # Readme 
 
 # LibCloud - AI-Powered Library Management System
+
+# Screenshots
+
+<img width="1470" alt="Screenshot 2025-01-16 at 9 11 49 AM" src="https://github.com/user-attachments/assets/251ee532-a0dd-4000-a6e2-9fe527db89bc" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 52 30 PM" src="https://github.com/user-attachments/assets/c2bdce7b-9a68-4341-bec9-9aa39eda6be9" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 52 28 PM" src="https://github.com/user-attachments/assets/8cb63d02-136b-4085-93f9-8328485b7ce5" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 52 26 PM" src="https://github.com/user-attachments/assets/8e900ba4-8dbb-417f-be10-147059eaddf7" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 52 23 PM" src="https://github.com/user-attachments/assets/a9272007-c0c0-4f60-bd0e-42648b30fe0e" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 51 54 PM" src="https://github.com/user-attachments/assets/a27669f1-16cf-4ef8-bbf9-d4ecd65bdc6b" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 51 23 PM" src="https://github.com/user-attachments/assets/15d79d6a-9a2c-48d5-a69b-c97354ddb834" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 51 13 PM" src="https://github.com/user-attachments/assets/45c70d10-6f4a-4c1f-a57e-59286af55896" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 51 02 PM" src="https://github.com/user-attachments/assets/06f95d7c-8775-4039-a6e0-a8116f1f1a21" />
+<img width="1470" alt="Screenshot 2025-01-16 at 5 50 50 PM" src="https://github.com/user-attachments/assets/7449c8f7-0bf2-4464-ad6a-f3f5b28c15d8" />
 
 ## Overview
 
