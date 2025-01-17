@@ -1,12 +1,12 @@
 # Readme 
 
-#LibCloud - AI-Powered Library Management System
+# LibCloud - AI-Powered Library Management System
 
-##Overview
+## Overview
 
 Welcome to LibCloud, an innovative library management system that integrates artificial intelligence to enhance user experience. This system allows users to chat with eBooks and PDFs using the ChatPDF API, enabling real-time interaction and efficient book management. The platform is powered by MongoDB for database management and uses EJS as the template engine for rendering dynamic web pages.
 
-##Features
+## Features
 
 AI Integration: Chat with eBooks and PDFs for real-time assistance and information retrieval.
 
@@ -16,7 +16,7 @@ Dynamic Web Pages: Powered by EJS for a seamless and responsive user interface.
 
 Robust Database: Uses MongoDB to handle all library data efficiently.
 
-##Prerequisites
+## Prerequisites
 
 Before running the application, ensure the following are installed on your system:
 
@@ -26,7 +26,7 @@ MongoDB: Download MongoDB
 
 ChatPDF API Key: Obtain an API key from ChatPDF.
 
-##Installation Guide
+## Installation Guide
 
 Follow these steps to set up and run the LibCloud system:
 
@@ -57,7 +57,7 @@ npm run dev
 
 The application will be accessible at http://localhost:3000.
 
-##Usage
+## Usage
 
 Access the System: Open the application in your web browser.
 
@@ -65,7 +65,7 @@ Chat with eBooks: Upload a PDF and start interacting with it using the AI-powere
 
 Manage Books: Use the intuitive interface to issue or return books.
 
-##Dependencies
+## Dependencies
 
 The following key libraries and frameworks are used in this project:
 
@@ -81,7 +81,7 @@ Install these packages using:
 
 npm install express ejs mongoose dotenv
 
-##Folder Structure
+## Folder Structure
 
 LibCloud/
 ├── public/            # Static files (CSS, JS, images)
@@ -93,15 +93,15 @@ LibCloud/
 ├── app.js             # Main application file
 └── package.json       # Project metadata and dependencies
 
-##Contributions
+## Contributions
 
 We welcome contributions to enhance LibCloud. Feel free to fork the repository and submit pull requests.
 
-##License
+## License
 
 This project is licensed under the MIT License. See the LICENSE file for details.
 
-##Support
+## Support
 
 If you encounter any issues or have questions, please open an issue in the repository or contact the development team.
 
